@@ -45,8 +45,8 @@ public class IQL {
     private static StringFilter textParser = (s) -> s;
     private static String dateFormat = "dd.MM.yyyy";
     
-    private static final int RT_S = 1; //htmlspecialchars string
-    private static final int RT_T = 2; //html code
+    private static final int RT_S = 1; //varchar
+    private static final int RT_T = 2; //text
     private static final int RT_I = 3; //integer
     private static final int RT_B = 4; //boolean
     private static final int RT_D = 5; //date
@@ -77,6 +77,9 @@ public class IQL {
         reset();
         setConnection(con);
     }
+    public IQL(){
+        this(null);
+    }
     
     public void reset(){
         opType = 0;
@@ -94,10 +97,6 @@ public class IQL {
         groups = new ArrayList<>();
         limit = null;
         selectRaw = null;
-    }
-    
-    public IQL(){
-        this(null);
     }
     
     public IQL setConnection(Connection con){
