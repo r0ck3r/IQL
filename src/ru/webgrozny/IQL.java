@@ -17,6 +17,7 @@ public class IQL {
     private static final int UPDATE = 3;
     private static final int INSERT = 4;
     private static final int DELETE = 5;
+    private static final int UPSERT = 6;
     
     private static final String OR = "OR";
     private static final String AND = "AND";
@@ -46,10 +47,11 @@ public class IQL {
     private static String dateFormat = "dd.MM.yyyy";
     
     private static final int RT_S = 1; //varchar
-    private static final int RT_T = 2; //text
-    private static final int RT_I = 3; //integer
-    private static final int RT_B = 4; //boolean
-    private static final int RT_D = 5; //date
+    private static final int RT_V = 2; //varchar without filter
+    private static final int RT_T = 3; //text
+    private static final int RT_I = 4; //integer
+    private static final int RT_B = 5; //boolean
+    private static final int RT_D = 6; //date
     
     private Connection con;
     private List<String> tables;
@@ -241,6 +243,7 @@ public class IQL {
             char typeChar = row.charAt(row.length()-1);
             switch (typeChar){
                 case 's' : type = RT_S; break;
+                case 'v' : type = RT_V; break;
                 case 't' : type = RT_T; break;
                 case 'i' : type = RT_I; break;
                 case 'b' : type = RT_B; break;
@@ -251,8 +254,10 @@ public class IQL {
         }
         throw new RowFormatException();
     }
-    
-    private String parseString(Object str){ //RT_S
+    private String parseString(Object str){
+        return (String) str;
+    }
+    private String parseStringFilter(Object str){ //RT_S
         return stringParser.filter((String) str);
     }
     private String parseText(Object str){ //RT_T
@@ -286,17 +291,22 @@ public class IQL {
         try{
             ret = (Integer) date;
         } catch (ClassCastException e){
+            Date d;
             try{
-                String sDate = (String) date;
-                SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-                Date d = sdf.parse(sDate);
-                long time = d.getTime();
-                ret = (int) (time / 1000l);
-            } catch (ClassCastException e1){
-                throw new RowFormatException();
-            } catch (ParseException e2) {
-                throw new RowFormatException();
+                d = (Date) date;
+            }catch (ClassCastException e1){
+                try{
+                    String sDate = (String) date;
+                    SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+                    d = sdf.parse(sDate);
+                } catch (ClassCastException e2){
+                    throw new RowFormatException();
+                } catch (ParseException e3) {
+                    throw new RowFormatException();
+                }
             }
+            long time = d.getTime();
+            ret = (int) (time / 1000l);
         }
         
         return ret;
@@ -304,7 +314,8 @@ public class IQL {
 
     private Object prepareForRow(Row row, Object data){
         switch (row.type){
-            case RT_S: return parseString(data);
+            case RT_S: return parseStringFilter(data);
+            case RT_V: return parseString(data);
             case RT_T: return parseText(data);
             case RT_I: return parseInt(data);
             case RT_B: return parseBoolean(data);
@@ -365,6 +376,18 @@ public class IQL {
             return this;
         }
         throw new DataRowsCountMismatchException();
+    }
+    
+    public IQL setUpsertRows(String... rows){
+        opType = UPSERT;
+        setModifyingRows(rows);
+        return this;
+    }
+    
+    public IQL upsert(Object... data){
+        insert(data);
+        update(data);
+        return this;
     }
     
     public IQL delete(int id){
@@ -550,6 +573,7 @@ public class IQL {
             for(PreparedData preparedData : this.preparedQueryData){
                 switch (preparedData.type){
                     case RT_S:
+                    case RT_V:
                     case RT_T: ps.setString(i++, (String) preparedData.data); break;
                     case RT_I:
                     case RT_D: ps.setInt(i++, (int) preparedData.data); break;
@@ -569,6 +593,7 @@ public class IQL {
         for(PreparedData preparedData : preparedQueryData){
             switch (preparedData.type){
                 case RT_S:
+                case RT_V:
                 case RT_T:
                     qf.setString((String) preparedData.data); break;
                 case RT_I:
@@ -591,6 +616,7 @@ public class IQL {
             case DELETE: compileDelete(); break;
             case CREATE: compileCreate(); break;
             case SELECT: compileSelect(); break;
+            case UPSERT: compileUpsert(); break;
             default: throw new OperationNotSetException();
         }
         if( (opType == UPDATE || opType == DELETE) && where.length() == 0 ){
@@ -647,6 +673,14 @@ public class IQL {
         sql.deleteCharAt(sql.length() - 1);
     }
     
+    private void compileUpsert(){
+        if(where.length() == 0){
+            compileInsert();
+        } else {
+            compileUpdate();
+        }
+    }
+    
     private void compileDelete(){
         sql.append("DELETE FROM `" + tables.get(0) + "`");
     }
@@ -657,6 +691,7 @@ public class IQL {
             case RT_B: ret.append("BOOL"); break;
             case RT_D:
             case RT_I: ret.append("INTEGER"); break;
+            case RT_V:
             case RT_S: ret.append("VARCHAR(255)"); break;
             case RT_T: ret.append("TEXT");
         }
