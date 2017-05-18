@@ -1,7 +1,7 @@
-package ru.webgrozny;
+package ru.webgrozny.iql;
 
-import ru.webgrozny.exceptions.*;
-import ru.webgrozny.queryfilter.QueryFilter;
+import ru.webgrozny.iql.exceptions.*;
+import ru.webgrozny.iql.queryfilter.QueryFilter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

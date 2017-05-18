@@ -1,4 +1,4 @@
-package ru.webgrozny.queryfilter;
+package ru.webgrozny.iql.queryfilter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
