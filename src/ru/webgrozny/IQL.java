@@ -6,7 +6,6 @@ import ru.webgrozny.queryfilter.QueryFilter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -630,7 +629,7 @@ public class IQL {
         return join(index1, row1, index2, row2, null, null);
     }
 
-    public Statement getStatement() {
+    public PreparedStatement getStatement() {
         if (con == null) {
             throw new ConnectionNotSetException();
         }
