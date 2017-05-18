@@ -1,0 +1,1334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.2.6.2 (Linux)"/>
+	<meta name="created" content="2017-05-18T12:35:00Z"/>
+	<meta name="changed" content="2017-05-18T15:37:23.106932067"/>
+	<style type="text/css">
+		@page { size: 55cm 55.8cm; margin: 2.54cm }
+		p { margin-bottom: 0.25cm; line-height: 120% }
+		h2 { margin-top: 0.07cm; margin-bottom: 0cm; color: #2e74b5; page-break-inside: avoid }
+		h2.western { font-family: "Calibri Light", sans-serif; font-size: 13pt; font-weight: normal }
+		h2.cjk { font-family: "MS Gothic", monospace; font-size: 13pt; font-weight: normal }
+		h2.ctl { font-family: "Times New Roman", serif; font-size: 13pt; font-weight: normal }
+		h3 { margin-top: 0.07cm; margin-bottom: 0cm; color: #1f4d78; page-break-inside: avoid }
+		h3.western { font-family: "Calibri Light", sans-serif; font-size: 12pt; font-weight: normal }
+		h3.cjk { font-family: "MS Gothic", monospace; font-size: 12pt; font-weight: normal }
+		h3.ctl { font-family: "Times New Roman", serif; font-size: 12pt; font-weight: normal }
+	</style>
+</head>
+<body lang="ru-RU" dir="ltr">
+<h2 class="western" style="page-break-before: always"><font face="Arial, sans-serif"><i><b>Преимущества</b></i></font></h2>
+<ol>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Исключение
+	синтаксических ошибок при составлении
+	запроса</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Запросы
+	INSERT и UPDATE в SQL, несмотря на схожесть
+	операций, имеют абсолютно разный вид</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Упрощение
+	работы с входными данными - не нужно
+	использовать методы setString(), setInt() и
+	другие методы ввода данных из
+	PreparedStatment, достаточно просто ввести
+	соотвествующие переменные</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Операция
+	UPSERT, которая вставит, либо обновит
+	запись если указан WHERE</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Генерация
+	исключения, если DELETE или UPDATE выполняются
+	без WHERE</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Возможность
+	дополнительной обработки строк перед
+	вставкой (при помощи специального
+	функционального интерфейса)</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Подстветка
+	синтаксиса при использовании IDE (чего,
+	обычно, лишена прямая запись SQL-запросов)</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Автоматический
+	парсинг даты из числа int, из строки
+	String, либо из объекта Date</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Порядок
+	команд не имеет значения, например
+	GROUP BY можно указать после LIMIT, WHERE после
+	ORDER BY, а JOIN перед SELECT</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Каждый
+	запрос начинается с ввода таблиц,
+	например для запроса SELECT сначала
+	добавляются необходимые таблицы методом
+	addTable(), тоже самое нужно сделать и для
+	запросов UPDATE, INSERT, DELETE</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Может
+	вернуть сгенерированный SQL-код, в отличие
+	от PreparedStatement</font></p>
+	<li/>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Упрощение
+	многострочной вставки данных - не нужно
+	конкатенировать запросы - достаточно
+	просто вызывать метод insert() для каждой
+	новой строки</font></p>
+</ol>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h2 class="western"><font face="Arial, sans-serif"><i><b>Встроенные
+константы</b></i></font></h2>
+<h3 class="western"><font face="Arial, sans-serif"><b>Операции
+сравнения WHERE:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>EQUAL
+</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">=
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;=&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>NOT</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">_</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>EQUAL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;!=&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>MORE</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;&gt;&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>MORENEQUAL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;&gt;=&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LESSNEQUAL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;&lt;=&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LESS</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;&lt;&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>ISNULL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;isnull&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>ISNTNULL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;isntnull&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LIKE</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;like&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Arial, sans-serif"><b>Направления
+для JOIN:</b></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN</b></i></font></font><font face="Arial, sans-serif"><b>_</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>FULL</b></i></font></font><font face="Arial, sans-serif"><b>
+</b></font><font color="#000000"><font face="DejaVu Sans Mono, serif">=
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;full&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">_</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LEFT</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;left&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">_</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>RIGHT</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;right&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Arial, sans-serif"><b>Типы
+JOIN:</b></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN</b></i></font></font><font face="Arial, sans-serif"><b>_</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>OUTER</b></i></font></font><font face="Arial, sans-serif"><b>
+</b></font><font color="#000000"><font face="DejaVu Sans Mono, serif">=
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;outer&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">_</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>INNER</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;inner&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Arial, sans-serif"><b>Направления
+сортировки:</b></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>ASC</b></i></font></font><font face="Arial, sans-serif"><b>
+</b></font><font color="#000000"><font face="DejaVu Sans Mono, serif">=
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;asc&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font><br/>
+<font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>DESC</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">
+= </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;desc&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">;</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h2 class="western"><font face="Arial, sans-serif"><i><b>Типы
+данных в запросах</b></i></font></h2>
+<table width="1375" cellpadding="7" cellspacing="0">
+	<col width="69">
+	<col width="215">
+	<col width="1047">
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Arial, sans-serif"><b>Тип IQL</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Arial, sans-serif"><b>Тип при создании
+			таблицы</b></font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Arial, sans-serif"><b>Тип при вставке
+			в запрос</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif"><b>%s</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">VARCHAR(255)</font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">String, дополнительно
+			обрабатываемый перед вставкой при
+			помощи функционального интерфейса
+			StringFilter, заданного статическим методом
+			setStringFilte()</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif"><b>%v</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">VARCHAR(255)</font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">String без дополнительной
+			обработки (Только экранирование
+			символа одинарной кавычки)</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif"><b>%t</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">TEXT</font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">String, с дополнительной
+			обработкой перед вставкой при помощи
+			функционального интерфейса StringFilter,
+			указанного статическим методом
+			setTextFilter()</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif"><b>%i</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">INTEGER</font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">int, без дополнительных
+			обработок</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif"><b>%d</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">INTEGER</font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">int, Date, либо String. В
+			последнем случае String будет обработан
+			при помощи SimpleDateFormat и форматирующей
+			строки, заданной статическим методом
+			</font><font color="#000000"><font face="DejaVu Sans Mono, serif">setDateFormat()</font></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="69" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif"><b>%b</b></font></p>
+		</td>
+		<td width="215" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">BOOL</font></p>
+		</td>
+		<td width="1047" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">boolean, либо String</font></p>
+		</td>
+	</tr>
+</table>
+<h2 class="western"> 
+</h2>
+<h2 class="western"><font face="Arial, sans-serif"><i><b>Методы
+и интерфейсы</b></i></font></h2>
+<h3 class="western"><font face="Arial, sans-serif"><b>Интерфейс
+StringFilter</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Это
+функциональный интерфейс, который
+служит для обработки строк. Его метод:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">String
+filter(String in);</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Методы:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<table width="1414" cellpadding="7" cellspacing="0">
+	<col width="745">
+	<col width="639">
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Arial, sans-serif"><b>Метод</b></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Arial, sans-serif"><b>Описание</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000080"><font face="Calibri, sans-serif"><b>static
+			void </b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>setStringFilter(StringFilter
+			sf)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			дополнительную фильтрацию для строки
+			типа %s перед вставкой в запрос</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000080"><font face="Calibri, sans-serif"><b>static
+			void </b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>setTextFilter(StringFilter
+			sf)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			дополнительную фильтрацию для строки
+			типа %t перед вставкой в запрос</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000080"><font face="Calibri, sans-serif"><b>static
+			void </b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>setDateFormat(String
+			format)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Формат парсинга
+			даты, указываемый для SimpleDateFormat, который
+			будет использован, если вставляемые
+			данные типа %d имеют тип String. По умолчанию
+			dd.MM.yyyy</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000080"><font face="Calibri, sans-serif"><b>void
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>reset()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Сбрасывает IQL в
+			исходное состояние (Кроме соединения)</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			setConnection(Connection con)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			соединение с БД</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			addTable(String... tables)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Добавление таблиц
+			в запрос. Этот метод должен вызываться
+			первым для всех запросов, кроме
+			createTable()</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			setTable(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			активную таблицу. Действует на select(),
+			where(), whereId(), groupBy(), orderBy()</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			setInsertRows(String... rows)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			столбцы для вставки данных. </font><font face="Calibri, sans-serif"><b>Имена
+			столбцов должны указываться с типом
+			данных</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			insert(Object... data)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Вставляет данные
+			в столбцы, указанные методом
+			setInsertRows(). Может вызываться многократно
+			для вставки двух и более строк</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			setUpdateRows(String... rows)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			столбцы для обновления данных. </font><font face="Calibri, sans-serif"><b>Имена
+			столбцов указываются с типом данных</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			update(Object... data)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Вставляет данные
+			в столбцы, указанные методом
+			setUpdateRows();</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			setUpsertRows(String... rows)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Устанавливает
+			столбцы для вставки, либо обновления
+			данных. </font><font face="Calibri, sans-serif"><b>Имена
+			столбцов указываются с типом данных</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			upsert(Object... data)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Вставляет, либо
+			обновляет данные в столбцах, указанных
+			методом setUpsertRows()</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			delete(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>id)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Удаляет запись с
+			указанным id из таблицы</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			delete()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Удаляет запись из
+			таблицы</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			createTable(String tableName, String... rows)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Создает таблицу
+			</font><font face="Calibri, sans-serif"><b>tableName</b></font><font face="Calibri, sans-serif">
+			со столбцами </font><font face="Calibri, sans-serif"><b>rows</b></font><font face="Calibri, sans-serif">.
+			</font><font face="Calibri, sans-serif"><b>Имена столбцов
+			указываются с типом данных</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			createTable(String tableName)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Создает таблицу
+			</font><font face="Calibri, sans-serif"><b>tableName</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			addRow(String... rows)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Добавляет столбцы
+			в создаваемую таблицу. </font><font face="Calibri, sans-serif"><b>Имена
+			столбцов указываются с типом данных</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			addRow(String row)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Добавляет столбец
+			в создаваемую таблицу. </font><font face="Calibri, sans-serif"><b>Имя
+			столбца указывается с типом данных</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			select(String... rows)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Производит выборку
+			всех полей, если параметры не указаны,
+			либо указанных полей из активной
+			таблицы. Вместе с именем таблицы можно
+			указать псевдоним через пробел, иначе
+			псевдоним будет указан в виде
+			</font><font face="Calibri, sans-serif"><b>таблица_поле</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			selectRaw(String select)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Произвольный
+			параметр для SELECT, например COUNT(*). Этот
+			метод нельзя использовать вместе с
+			select()</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			openBracket()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Открытие скобки
+			для WHERE</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			closeBracket()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Закрытие скобки
+			для WHERE</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			where(String what, String operation, Object value)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p style="margin-bottom: 0cm"><font face="Calibri, sans-serif">Условие
+			для WHERE, где:</font></p>
+			<p style="margin-bottom: 0cm"><font face="Calibri, sans-serif"><b>what</b></font><font face="Calibri, sans-serif">
+			- столбец активной таблицы для которого
+			указывается сравнение. </font><font face="Calibri, sans-serif"><b>Имя
+			столбца указывается с типом данных</b></font></p>
+			<p style="margin-bottom: 0cm"><font face="Calibri, sans-serif"><b>operation</b></font><font face="Calibri, sans-serif">
+			- операция сравнения (константа, либо
+			ее литеральное значение</font></p>
+			<p><font face="Calibri, sans-serif"><b>value</b></font><font face="Calibri, sans-serif">
+			- значение, с которым сравнивается
+			столблец</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			where(String what, String operation)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Условие для WHERE,
+			не требующее значение (для операций
+			IQL.ISNULL и IQL.ISNTNULL)</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			whereId(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>value)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Условие сравнения
+			id для активной таблицы</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			or()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Логическая операция
+			OR, соединяющая условия. После
+			использования сбрасывается в AND</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			and()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Логическая операция
+			AND, соединяющая условия. Используется
+			по-умолчанию</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			groupBy(String row, </b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>tableIndex)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Группировка
+			полученных данных по столбцу </font><font face="Calibri, sans-serif"><b>row</b></font><font face="Calibri, sans-serif">
+			таблицы под номером </font><font face="Calibri, sans-serif"><b>tableIndex</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			groupBy(String row)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Группировка
+			полученных данных по столбцу </font><font face="Calibri, sans-serif"><b>row</b></font><font face="Calibri, sans-serif">
+			активной таблицы</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			orderBy(String row, String type, </b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>tableIndex)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p style="margin-bottom: 0cm"><font face="Calibri, sans-serif">Сортировка,
+			где</font></p>
+			<p style="margin-bottom: 0cm"><font face="Calibri, sans-serif"><b>row</b></font><font face="Calibri, sans-serif">
+			- имя столбца, по которому осуществляется
+			сортировка</font></p>
+			<p style="margin-bottom: 0cm"><font face="Calibri, sans-serif"><b>type</b></font><font face="Calibri, sans-serif">
+			- направление сортировки (константа,
+			либо ее литеральное значение)</font></p>
+			<p><font face="Calibri, sans-serif"><b>tableIndex</b></font><font face="Calibri, sans-serif">
+			- номер таблицы</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			orderBy(String row, </b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>tableIndex)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Сортировка по полю
+			</font><font face="Calibri, sans-serif"><b>row </b></font><font face="Calibri, sans-serif">из
+			таблицы под номером </font><font face="Calibri, sans-serif"><b>tableIndex</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			orderBy(String row, String type)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Сортировка по полю
+			</font><font face="Calibri, sans-serif"><b>row</b></font><font face="Calibri, sans-serif">
+			из активной таблицы в направлении
+			</font><font face="Calibri, sans-serif"><b>type</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			limit(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>from,
+			</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>to)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">LIMIT с </font><font face="Calibri, sans-serif"><b>from</b></font><font face="Calibri, sans-serif">
+			по </font><font face="Calibri, sans-serif"><b>to</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			limit(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>limit)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">LIMIT с </font><font face="Calibri, sans-serif"><b>0</b></font><font face="Calibri, sans-serif">
+			по </font><font face="Calibri, sans-serif"><b>limit</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			join(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index1,
+			String row1, </b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index2,
+			String row2, String side, String type)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Объединение таблиц
+			по полю </font><font face="Calibri, sans-serif"><b>row1</b></font><font face="Calibri, sans-serif">
+			из таблицы под номером </font><font face="Calibri, sans-serif"><b>index1</b></font><font face="Calibri, sans-serif">
+			с полем </font><font face="Calibri, sans-serif"><b>row2</b></font><font face="Calibri, sans-serif">
+			из таблицы под номером </font><font face="Calibri, sans-serif"><b>index2</b></font><font face="Calibri, sans-serif">
+			с направлением </font><font face="Calibri, sans-serif"><b>side</b></font><font face="Calibri, sans-serif">
+			и типом </font><font face="Calibri, sans-serif"><b>type</b></font><font face="Calibri, sans-serif">,
+			где </font><font face="Calibri, sans-serif"><b>side</b></font><font face="Calibri, sans-serif">
+			принимает значение одной из констант
+			</font><font face="Calibri, sans-serif"><b>IQL.</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN_LEFT</b></i></font></font><font face="Calibri, sans-serif">,
+			</font><font face="Calibri, sans-serif"><b>IQL.</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>JOIN_RIGHT</b></i></font></font><font face="Calibri, sans-serif">,
+			</font><font face="Calibri, sans-serif"><b>IQL</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>.JOIN_FULL</b></i></font></font><font face="Calibri, sans-serif">,
+			а </font><font face="Calibri, sans-serif"><b>type</b></font><font face="Calibri, sans-serif">
+			- значения констант </font><font face="Calibri, sans-serif"><b>IQL.</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>INNER</b></i></font></font><font face="Calibri, sans-serif">,
+			либо </font><font face="Calibri, sans-serif"><b>IQL.</b></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>OUTER</b></i></font></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			join(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index1,
+			String row1, </b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index2,
+			String row2, String typeOrSide)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Объединение таблиц
+			по полю </font><font face="Calibri, sans-serif"><b>row1</b></font><font face="Calibri, sans-serif">
+			из таблицы под номером </font><font face="Calibri, sans-serif"><b>index1</b></font><font face="Calibri, sans-serif">
+			с полем </font><font face="Calibri, sans-serif"><b>row2</b></font><font face="Calibri, sans-serif">
+			из таблицы под номером </font><font face="Calibri, sans-serif"><b>index2</b></font><font face="Calibri, sans-serif">,
+			где </font><font face="Calibri, sans-serif"><b>typeOrSide</b></font><font face="Calibri, sans-serif">
+			принимает направление, либо тип
+			объединения</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>IQL
+			join(</b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index1,
+			String row1, </b></font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>int
+			</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><b>index2,
+			String row2)</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Объединение таблиц
+			по полю </font><font face="Calibri, sans-serif"><b>row1</b></font><font face="Calibri, sans-serif">
+			из таблицы под номером </font><font face="Calibri, sans-serif"><b>index1</b></font><font face="Calibri, sans-serif">
+			с полем </font><font face="Calibri, sans-serif"><b>row2</b></font><font face="Calibri, sans-serif">
+			из таблицы под номером </font><font face="Calibri, sans-serif"><b>index2</b></font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>PreparedStatement
+			getStatement()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Получает объект
+			типа PreparedStatement, содержащий сформированный
+			запрос.</font></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="745" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font color="#000000"><font face="Calibri, sans-serif"><b>String
+			getSQL()</b></font></font></p>
+		</td>
+		<td width="639" style="border: 1px solid #bdd6ee; padding: 0cm 0.19cm">
+			<p><font face="Calibri, sans-serif">Получает
+			сформированный запрос в виде текстовой
+			строки. (Экранируется при помощи
+			внутреннего фильтра - </font><font face="Calibri, sans-serif"><b>может
+			быть небезопасно</b></font><font face="Calibri, sans-serif">,
+			поэтому лучше использовать только
+			для отладки)</font></p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h2 class="western"><font face="Arial, sans-serif"><i><b>Примеры
+использования</b></i></font></h2>
+<h3 class="western"><font face="Arial, sans-serif"><b>Простая
+выборка:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Connection
+con = DriverManager.</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><i>getConnection</i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;url&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;login&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;password&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;table1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.select();</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Этот
+же код можно записать следующим образом:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con).addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;table1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).select().getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Этот
+код создаст объекст типа PreparedStatement с
+SQL кодом:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">SELECT
+* FROM `table1`</font></font></p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Условия:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Простое
+условие:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;table1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.select();</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>EQUAL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">11</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Сгенерированный
+код:</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">SELECT
+* FROM `table1` WHERE `table1`.`id` = </font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">11</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Сложное
+условие:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;table1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.select();</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>EQUAL</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">11</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">openBracket().</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">
+where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LIKE</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;John%&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">or().</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LIKE</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;Michael%&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">
+closeBracket();</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">SQL:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">SELECT
+* FROM `table1` WHERE `table1`.`id` = </font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">11
+</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">AND
+(`table1`.`name` LIKE </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>'John%'
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">OR
+`table1`.`name` LIKE </font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>'Michael%'</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">)</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Выборка
+определенных полей:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;table1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font><br/>
+<br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Сгенерирует
+следующий SQL-код:</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">SELECT
+`table1`.`id` AS `table1_id`, `table1`.`name` AS `table1_name` FROM
+`table1`</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Как
+видно из примера - указание полей для
+метода select() приводит к указанию в запросе
+псевдонимов полей при помощи AS в виде
+</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif"><i><b>имятаблицы_имяполя</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">.
+Это сделано для того, чтобы имена столбцов
+не накладывались друг на друга при
+объединении таблиц. Для указания
+собственного псевдонима для поля его
+нужно ввести через пробел после самого
+имени поля:</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">iql.select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id
+id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+name&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Например:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;table1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id
+id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+username&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Приведет
+к созданию следующего кода:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">SELECT
+`table1`.`id` AS `id`, `table1`.`name` AS `username` FROM `table1`</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Объединение
+таблиц:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;users&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;messages&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.join(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">1</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">2</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;user_id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setTable(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">1</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id
+user_id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;login
+login&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setTable(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">2</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id
+message_id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;date&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;text
+text&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Сгенерирует
+следующий код:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">SELECT
+</font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`users`.`id`
+AS `user_id`, </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`users`.`login`
+AS `login`, </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`messages`.`id`
+AS `message_id`, </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`messages`.`date`
+AS `messages_date`, </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`messages`.`text`
+AS `text` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">FROM
+`users` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">JOIN
+`messages` ON `users`.`id` = `messages`.`user_id`</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Выборка
+из нескольких таблиц с LIMIT, GROUP BY и ORDER BY</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;users&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisation_user&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisations&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">//Номера
+таблиц  1          2                  3</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.join(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">1</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">2</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;user_id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.join(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">2</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisation_id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">3</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;id&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setTable(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">1</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;login
+login&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;login
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LIKE</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;d0%&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setTable(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">3</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).select(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisation_name
+orgname&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;type
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;=&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">1</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.groupBy(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisation_name&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">3</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.orderBy(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisation_name&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>DESC</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">3</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.limit(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">10</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+ps = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Сгенерирует
+следующий код:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">SELECT
+</font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`users`.`login`
+AS `login`, </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`organisations`.`organisation_name`
+AS `orgname` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">FROM
+`users` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">JOIN
+`organisation_user` ON `users`.`id` = `organisation_user`.`user_id` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">JOIN
+`organisations` ON `organisation_user`.`organisation_id` =
+`organisations`.`id` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">WHERE
+</font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`users`.`login`
+LIKE 'd0%' AND </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">`organisations`.`type`
+= 1 </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">GROUP
+BY `organisations`.`organisation_name` </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">ORDER
+BY `organisations`.`organisation_name` DESC </font>
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">LIMIT
+0, 10</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Создание
+таблиц:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Способ
+№1:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con).createTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;mytable&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;date
+%d&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;desc
+%t&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;price
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">).getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Способ
+№2:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.createTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;mytable&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addRow(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;date
+%d&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;desc
+%t&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;price
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Способ
+№3:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.createTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;mytable&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addRow(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addRow(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;date
+%d&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addRow(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;desc
+%t&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addRow(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;price
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Приведет
+к генерации следующего SQL-кода:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">CREATE
+TABLE `mytable`(`id` INTEGER PRIMARY KEY AUTO_INCREMENT, `name`
+VARCHAR(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">255</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">),
+`date` INTEGER, `desc` TEXT, `price` INTEGER)</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Вставка
+данных:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;mytable&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setInsertRows(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;register_date
+%d&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;level
+%i&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.insert(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;User1&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;17.05.2017&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">4</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.insert(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;User2&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;12.03.2016&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">5</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">Statement
+st = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Сгенерирует
+следующий код:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">INSERT
+INTO `mytable`(`name`, `register_date`, `level`) VALUES ('User1',
+1494968400, 4), ('User2', 1457730000, 5)</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Следует
+отметить, что формат даты для %d, в случае
+получения объекта String для такого поля,
+по умолчанию установлен в dd.MM.yyyy</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Обновление
+данных:</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisations&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setUpdateRows(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;address
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.update(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;New
+orgname&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;New
+address&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.whereId(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">112</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+ps = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Сгенерирует
+следующий код:</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">UPDATE
+`organisations` SET `name` = 'New orgname', `address` = 'New address'
+WHERE `organisations`.`id` = 112</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Стоит
+отметить, что методы getStatement() и getSQL() для
+этого запроса могут выбросить исключение
+InsecureOperationException (RuntimeException), если не вызван
+ни один из методов where() или whereId()</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000">
+</font><br/>
+<br/>
+
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Операция
+UPSERT</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Эта
+операция не является прямой SQL-операцией,
+а является всего лишь оберткой над
+UPDATE и INSERT</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Например,
+переделанный вариант предыдущего
+примера:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisations&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setUpsertRows(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;address
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.upsert(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;New
+orgname&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;New
+address&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.whereId(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">112</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+ps = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">сгенерирует
+тот же код:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">UPDATE
+`organisations` SET `name` = 'New orgname', `address` = 'New address'
+WHERE `organisations`.`id` = 112</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Однако,
+если не произведено вызова метода
+where(), либо whereId(), например:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;organisations&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.setUpsertRows(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;name
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;address
+%s&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.upsert(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;New
+orgname&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;New
+address&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+ps = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">То
+будет сгенерирован SQL код для вставки
+данных:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">INSERT
+INTO `organisations`(`name`, `address`) VALUES ('New orgname', 'New
+address')</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<h3 class="western"><font face="Arial, sans-serif"><b>Удаление
+данных</b></font></h3>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Удаление
+по id:</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;users&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.delete(</font></font><font color="#0000ff"><font face="DejaVu Sans Mono, serif">12</font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+ps = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Сгенерирует
+следующий код:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">DELETE
+FROM `users` WHERE `users`.`id` = 12</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Удаление
+по произвольному полю:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL
+iql = </font></font><font color="#000080"><font face="DejaVu Sans Mono, serif"><b>new
+</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">IQL(con);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.addTable(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;users&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.delete();</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">iql.where(</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;login_date
+%d&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+IQL.</font></font><font color="#660e7a"><font face="DejaVu Sans Mono, serif"><i><b>LESS</b></i></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">,
+</font></font><font color="#008000"><font face="DejaVu Sans Mono, serif"><b>&quot;18.05.2015&quot;</b></font></font><font color="#000000"><font face="DejaVu Sans Mono, serif">);</font></font><br/>
+<font color="#000000"><font face="DejaVu Sans Mono, serif">PreparedStatement
+ps = iql.getStatement();</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">Сгенерирует
+следующий код:</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font face="Calibri, sans-serif">DELETE
+FROM `users` WHERE `users`.`login_date` &lt; 1431896400</font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><font color="#000000"><font face="DejaVu Sans Mono, serif">Стоит
+отметить, что методы getStatement() и getSQL() для
+этого запроса могут выбросить исключение
+InsecureOperationException (RuntimeException), если не вызван
+ни один из методов where() или whereId()</font></font></p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"> 
+</p>
+<p style="margin-bottom: 0.28cm; line-height: 107%"><br/>
+<br/>
+
+</p>
+</body>
+</html>
