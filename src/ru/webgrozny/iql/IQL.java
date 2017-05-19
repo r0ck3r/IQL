@@ -84,6 +84,9 @@ public class IQL {
         this(null);
     }
 
+    /**
+     * Will reset object
+     */
     public void reset() {
         opType = 0;
         preparedWhereData = new ArrayList<>();
@@ -102,19 +105,33 @@ public class IQL {
         selectRaw = null;
     }
 
+    /**
+     * 
+     * @param con Connection to database
+     * @return this
+     */
     public IQL setConnection(Connection con) {
         this.con = con;
         return this;
     }
 
+    /**
+     * @param sf Filter for %s type, before inserting to query
+     */
     public static void setStringFilter(StringFilter sf) {
         stringParser = sf;
     }
 
+    /**
+     * @param sf Filter for %t type, before inserting to query
+     */
     public static void setTextFilter(StringFilter sf) {
         textParser = sf;
     }
 
+    /**
+     * @param format Date format for %d, before inserting to query (Default: dd.MM.yyyy)
+     */
     public static void setDateFormat(String format) {
         dateFormat = format;
     }
@@ -256,6 +273,11 @@ public class IQL {
         }
     }
 
+    /**
+     * @param row Row name in format "name %s", where %s is type signature
+     * @return Row object
+     * @throws RowFormatException if type signature not found
+     */
     private Row parseRow(String row) throws RowFormatException {
         String name;
         int type;
@@ -293,18 +315,38 @@ public class IQL {
         throw new RowFormatException();
     }
 
+    /**
+     * Used for type %v
+     * @param str Object, that contains string to parse
+     * @return parsed string
+     */
     private String parseString(Object str) {
         return (String) str;
     }
 
+    /**
+     * Used for type %s
+     * @param str Object, that contains string to parse and filter with StringFilter object, set by setStringFilter()
+     * @return parsed string
+     */
     private String parseStringFilter(Object str) { //RT_S
         return stringParser.filter((String) str);
     }
 
+    /**
+     * Used for type %t
+     * @param str Object, that contains string to parse and filter with StringFilter object, set by setTextFilter();
+     * @return parsed string
+     */
     private String parseText(Object str) { //RT_T
         return textParser.filter((String) str);
     }
 
+    /**
+     * Used for type %i
+     * @param intVal Object, that contains Integer or String with integer value
+     * @return parsed integer
+     */
     private int parseInt(Object intVal) {
         int ret;
         try {
@@ -319,6 +361,11 @@ public class IQL {
         return ret;
     }
 
+    /**
+     * Used for type %b
+     * @param booleanVal Object, that contains Boolean or String with boolean value
+     * @return parsed boolean
+     */
     private boolean parseBoolean(Object booleanVal) {
         boolean ret;
         try {
@@ -329,6 +376,11 @@ public class IQL {
         return ret;
     }
 
+    /**
+     * Used for %d
+     * @param date Object, that contains Integer, String or Date with inserting date
+     * @return parsed integer date timestamp
+     */
     private int parseDate(Object date) {
         int ret;
         try {
@@ -354,7 +406,12 @@ public class IQL {
 
         return ret;
     }
-    
+
+    /**
+     * Used for %f
+     * @param data Object, that contains Float or String value
+     * @return parsed float
+     */
     private float parseFloat(Object data){
         float ret;
         try {
@@ -368,7 +425,13 @@ public class IQL {
         }
         return ret;
     }
-    
+
+    /**
+     * Data for preparator
+     * @param row row to get type data
+     * @param data data, which will be parsed with row type
+     * @return Object, that contains right data type for set row type
+     */
     private Object prepareForRow(Row row, Object data) {
         switch (row.type) {
             case RT_S:
@@ -390,6 +453,10 @@ public class IQL {
         }
     }
 
+    /**
+     * @param tables tables, which will be added to query
+     * @return this
+     */
     public IQL addTable(String... tables) {
         this.tables.addAll(Arrays.asList(tables));
         if(tables.length == 1){
@@ -398,11 +465,20 @@ public class IQL {
         return this;
     }
 
+    /**
+     * Sets active table
+     * @param index active table index, started from 1
+     * @return this
+     */
     public IQL setTable(int index) {
         currentTableIndex = index - 1;
         return this;
     }
 
+    /**
+     * Method, that is called by setInsertRows and setUpdateRows, which will set rows, to add or update data
+     * @param rows rows to modificate. Must be set with type signature
+     */
     private void setModifyingRows(String[] rows) {
         modifyingRows = new Row[rows.length];
         int i = 0;
@@ -411,12 +487,22 @@ public class IQL {
         }
     }
 
+    /**
+     * Setting rows for data insert
+     * @param rows rows with type signature to insert
+     * @return this
+     */
     public IQL setInsertRows(String... rows) {
         opType = INSERT;
         setModifyingRows(rows);
         return this;
     }
 
+    /**
+     * Inserts data to declared with setInsertRows() rows
+     * @param data data to insert
+     * @return this
+     */
     public IQL insert(Object... data) {
         if (data.length == modifyingRows.length) {
             Object[] toInsert = new Object[data.length];
@@ -429,12 +515,22 @@ public class IQL {
         throw new DataRowsCountMismatchException();
     }
 
+    /**
+     * Setting rows to data update
+     * @param rows row names with type signature to update
+     * @return this
+     */
     public IQL setUpdateRows(String... rows) {
         opType = UPDATE;
         setModifyingRows(rows);
         return this;
     }
 
+    /**
+     * Updates data in declared with setUpdateRows() rows
+     * @param data data to insert
+     * @return this
+     */
     public IQL update(Object... data) {
         if (data.length == modifyingRows.length) {
             Object[] update = new Object[data.length];
@@ -447,18 +543,33 @@ public class IQL {
         throw new DataRowsCountMismatchException();
     }
 
+    /**
+     * Setting rows to update or insert
+     * @param rows row names with type signature
+     * @return this
+     */
     public IQL setUpsertRows(String... rows) {
         opType = UPSERT;
         setModifyingRows(rows);
         return this;
     }
 
+    /**
+     * Setting data to update or insert
+     * @param data data to insert or update
+     * @return this
+     */
     public IQL upsert(Object... data) {
         insert(data);
         update(data);
         return this;
     }
 
+    /**
+     * DELETE row with id
+     * @param id row id to delete
+     * @return this
+     */
     public IQL delete(int id) {
         if (id != -1) {
             whereId(id);
@@ -467,16 +578,31 @@ public class IQL {
         return this;
     }
 
+    /**
+     * Creating delete query
+     * @return this
+     */
     public IQL delete() {
         return delete(-1);
     }
 
+    /**
+     * Table creating
+     * @param tableName Table name to create
+     * @param rows Rows to create in table
+     * @return this
+     */
     public IQL createTable(String tableName, String... rows) {
         createTable(tableName);
         addRow(rows);
         return this;
     }
 
+    /**
+     * Adding rows to creating table
+     * @param rows row names with type signature
+     * @return
+     */
     public IQL addRow(String... rows) {
         for (String row : rows) {
             addRow(row);
@@ -484,17 +610,32 @@ public class IQL {
         return this;
     }
 
+    /**
+     * Table create
+     * @param tableName table name to create
+     * @return this
+     */
     public IQL createTable(String tableName) {
         opType = CREATE;
         addTable(tableName);
         return this;
     }
 
+    /**
+     * Adding row to creating table
+     * @param row row name with type signature
+     * @return
+     */
     public IQL addRow(String row) {
         createRows.add(parseRow(row));
         return this;
     }
 
+    /**
+     * Selects rows from table
+     * @param rows row to select
+     * @return this
+     */
     public IQL select(String... rows) {
         opType = SELECT;
         for (String row : rows) {
@@ -503,22 +644,42 @@ public class IQL {
         return this;
     }
 
+    /**
+     * Raw select command, for example for COUNT(*)
+     * @param select select command
+     * @return this
+     */
     public IQL selectRaw(String select) {
         opType = SELECT;
         this.selectRaw = select;
         return this;
     }
 
+    /**
+     * Opens bracket in where
+     * @return this
+     */
     public IQL openBracket() {
         openBracketsCnt++;
         return this;
     }
 
+    /**
+     * Closing bracket in where
+     * @return this
+     */
     public IQL closeBracket() {
         where.append(')');
         return this;
     }
 
+    /**
+     * Where statement
+     * @param what what compare
+     * @param operation compare operation (Some of EQUAL, NOT_EQUAL, MORE, MORENEQUAL, LESSNEQUAL, LESS, ISNULL, ISNTNULL, LIKE)
+     * @param value value to compare with
+     * @return this
+     */
     public IQL where(String what, String operation, Object value) {
         String cOperation;
         boolean withoutData = false;
@@ -582,64 +743,143 @@ public class IQL {
         return this;
     }
 
+    /**
+     * OR
+     * @return this
+     */
     public IQL or() {
         this.whereConcat = OR;
         return this;
     }
 
+    /**
+     * AND
+     * @return this
+     */
     public IQL and() {
         this.whereConcat = AND;
         return this;
     }
 
+    /**
+     * where statement without value (for isnull, isntnull)
+     * @param what row to compare
+     * @param operation operation (ISNULL, ISNTNULL)
+     * @return this
+     */
     public IQL where(String what, String operation) {
         return where(what, operation, null);
     }
 
+    /**
+     * Comparing id with value from current active table
+     * @param value id
+     * @return this
+     */
     public IQL whereId(int value) {
         return where("id %i", "=", value);
     }
 
+    /**
+     * Grouping data
+     * @param row row to group
+     * @param table table, that contains row
+     * @return this
+     */
     public IQL groupBy(String row, int table) {
         groups.add(new Group(row, table));
         return this;
     }
 
+    /**
+     * Grouping data
+     * @param row row from current active table to group
+     * @return this
+     */
     public IQL groupBy(String row) {
         groups.add(new Group(row));
         return this;
     }
 
+    /**
+     * Ordering data
+     * @param row row for order
+     * @param type ordering type (ASC or DESC)
+     * @param table table, that contains row
+     * @return this
+     */
     public IQL orderBy(String row, String type, int table) {
         orders.add(new Order(row, type, table));
         return this;
     }
 
+    /**
+     * Ordering data
+     * @param row row for order
+     * @param table table, that contains row
+     * @return this
+     */
     public IQL orderBy(String row, int table) {
         orders.add(new Order(row, table));
         return this;
     }
 
+    /**
+     * Ordering data
+     * @param row row from current active table
+     * @param type ordering type (ASC or DESC)
+     * @return
+     */
     public IQL orderBy(String row, String type) {
         orders.add(new Order(row, type));
         return this;
     }
 
+    /**
+     * Setting limits
+     * @param from limit from
+     * @param to limit to
+     * @return this
+     */
     public IQL limit(int from, int to) {
         limit = " LIMIT " + from + ", " + to;
         return this;
     }
 
+    /**
+     * Setting limit from zero to limit
+     * @param limit number of elements
+     * @return this
+     */
     public IQL limit(int limit) {
         return limit(0, limit);
     }
 
+    /**
+     * Joining tables
+     * @param index1 table to join to
+     * @param row1 field name for join to
+     * @param index2 joining table index
+     * @param row2 joining field name
+     * @param side join side (LEFT, RIGHT, FULL)
+     * @param type join type (INNER, OUTER)
+     * @return this
+     */
     public IQL join(int index1, String row1, int index2, String row2, String side, String type) {
         excludedTables.add(tables.get(index2 - 1));
         joins.add(new Join(index1, row1, index2, row2, side, type));
         return this;
     }
 
+    /**
+     * Joining tables
+     * @param index1 table to join to
+     * @param row1 field name for join to
+     * @param index2 joining table index
+     * @param row2 joining field name
+     * @param typeOrSide join side (LEFT, RIGHT, FULL) or type (INNER, OUTER)            
+     * @return this
+     */
     public IQL join(int index1, String row1, int index2, String row2, String typeOrSide) {
         if (typeOrSide.equals(JOIN_OUTER) || typeOrSide.equals(JOIN_INNER)) {
             return join(index1, row1, index2, row2, null, typeOrSide);
@@ -648,10 +888,22 @@ public class IQL {
         }
     }
 
+    /**
+     * Joining tables
+     * @param index1 table to join to
+     * @param row1 field name for join to
+     * @param index2 joining table index
+     * @param row2 joining field name
+     * @return this
+     */
     public IQL join(int index1, String row1, int index2, String row2) {
         return join(index1, row1, index2, row2, null, null);
     }
 
+    /**
+     * Getting PreparedStatement for built query
+     * @return PreparedStatement with query set
+     */
     public PreparedStatement getStatement() {
         if (con == null) {
             throw new ConnectionNotSetException();
@@ -686,6 +938,10 @@ public class IQL {
         }
     }
 
+    /**
+     * Build query to String 
+     * @return String with buil query
+     */
     public String getSQL() {
         compileQuery();
         QueryFilter qf = new QueryFilter(sql.toString());
