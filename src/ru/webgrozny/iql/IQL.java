@@ -392,6 +392,9 @@ public class IQL {
 
     public IQL addTable(String... tables) {
         this.tables.addAll(Arrays.asList(tables));
+        if(tables.length == 1){
+            currentTableIndex = this.tables.size() - 1;
+        }
         return this;
     }
 
