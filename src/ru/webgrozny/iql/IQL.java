@@ -11,16 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class IQL {
-    private static final int SELECT = 1;
-    private static final int CREATE = 2;
-    private static final int UPDATE = 3;
-    private static final int INSERT = 4;
-    private static final int DELETE = 5;
-    private static final int UPSERT = 6;
-
-    private static final String OR = "OR";
-    private static final String AND = "AND";
-
     public static final String EQUAL = "=";
     public static final String NOT_EQUAL = "!=";
     public static final String MORE = ">";
@@ -45,17 +35,9 @@ public class IQL {
     private static StringFilter textParser = (s) -> s;
     private static String dateFormat = "dd.MM.yyyy";
 
-    private static final int RT_S = 1; //varchar
-    private static final int RT_V = 2; //varchar without filter
-    private static final int RT_T = 3; //text
-    private static final int RT_I = 4; //integer
-    private static final int RT_B = 5; //boolean
-    private static final int RT_D = 6; //date
-    private static final int RT_F = 7; //float
-
     private Connection con;
     private List<String> tables;
-    private int opType;
+    private Operation opType;
     private Row[] modifyingRows;
     private List<Object[]> insertableData;
     private Object[] updateData;
@@ -63,7 +45,6 @@ public class IQL {
     private List<PreparedData> preparedQueryData;
     private List<PreparedData> preparedWhereData;
     private StringBuilder where;
-    private String whereConcat = AND;
     private int openBracketsCnt;
     private int currentTableIndex;
     private List<Row> createRows;
@@ -74,6 +55,7 @@ public class IQL {
     private List<Group> groups;
     private String limit;
     private String selectRaw;
+    private boolean whereOr = false;
 
     public IQL(Connection con) {
         reset();
@@ -88,7 +70,7 @@ public class IQL {
      * Will reset object
      */
     public void reset() {
-        opType = 0;
+        opType = Operation.NOT_SET;
         preparedWhereData = new ArrayList<>();
         createRows = new ArrayList<>();
         tables = new ArrayList<>();
@@ -138,9 +120,9 @@ public class IQL {
 
     private class Row {
         String name;
-        int type;
+        DataType type;
 
-        Row(String name, int type) {
+        Row(String name, DataType type) {
             this.name = name;
             this.type = type;
         }
@@ -148,9 +130,9 @@ public class IQL {
 
     private class PreparedData {
         Object data;
-        int type;
+        DataType type;
 
-        PreparedData(Object data, int type) {
+        PreparedData(Object data, DataType type) {
             this.data = data;
             this.type = type;
         }
@@ -280,32 +262,32 @@ public class IQL {
      */
     private Row parseRow(String row) throws RowFormatException {
         String name;
-        int type;
+        DataType type;
         int delimiterIndex = row.lastIndexOf('%');
         if (delimiterIndex == row.length() - 2) {
             name = row.substring(0, delimiterIndex - 1);
             char typeChar = row.charAt(row.length() - 1);
             switch (typeChar) {
                 case 's':
-                    type = RT_S;
+                    type = DataType.RT_S;
                     break;
                 case 'v':
-                    type = RT_V;
+                    type = DataType.RT_V;
                     break;
                 case 't':
-                    type = RT_T;
+                    type = DataType.RT_T;
                     break;
                 case 'i':
-                    type = RT_I;
+                    type = DataType.RT_I;
                     break;
                 case 'b':
-                    type = RT_B;
+                    type = DataType.RT_B;
                     break;
                 case 'd':
-                    type = RT_D;
+                    type = DataType.RT_D;
                     break;
                 case 'f':
-                    type = RT_F;
+                    type = DataType.RT_F;
                     break;
                 default:
                     throw new RowFormatException();
@@ -493,7 +475,7 @@ public class IQL {
      * @return this
      */
     public IQL setInsertRows(String... rows) {
-        opType = INSERT;
+        opType = Operation.INSERT;
         setModifyingRows(rows);
         return this;
     }
@@ -521,7 +503,7 @@ public class IQL {
      * @return this
      */
     public IQL setUpdateRows(String... rows) {
-        opType = UPDATE;
+        opType = Operation.UPDATE;
         setModifyingRows(rows);
         return this;
     }
@@ -549,7 +531,7 @@ public class IQL {
      * @return this
      */
     public IQL setUpsertRows(String... rows) {
-        opType = UPSERT;
+        opType = Operation.UPSERT;
         setModifyingRows(rows);
         return this;
     }
@@ -574,7 +556,7 @@ public class IQL {
         if (id != -1) {
             whereId(id);
         }
-        opType = DELETE;
+        opType = Operation.DELETE;
         return this;
     }
 
@@ -616,7 +598,7 @@ public class IQL {
      * @return this
      */
     public IQL createTable(String tableName) {
-        opType = CREATE;
+        opType = Operation.CREATE;
         addTable(tableName);
         return this;
     }
@@ -637,7 +619,7 @@ public class IQL {
      * @return this
      */
     public IQL select(String... rows) {
-        opType = SELECT;
+        opType = Operation.SELECT;
         for (String row : rows) {
             selectedRows.add(new SelectedRow(row));
         }
@@ -650,7 +632,7 @@ public class IQL {
      * @return this
      */
     public IQL selectRaw(String select) {
-        opType = SELECT;
+        opType = Operation.SELECT;
         this.selectRaw = select;
         return this;
     }
@@ -724,7 +706,7 @@ public class IQL {
         }
         String table = tables.get(currentTableIndex);
         if (where.length() > 0) {
-            where.append(" " + whereConcat + " ");
+            where.append(" " + (whereOr ? "OR" : "AND") + " ");
         } else {
             where.append(" WHERE ");
         }
@@ -748,7 +730,7 @@ public class IQL {
      * @return this
      */
     public IQL or() {
-        this.whereConcat = OR;
+        whereOr = true;
         return this;
     }
 
@@ -757,7 +739,7 @@ public class IQL {
      * @return this
      */
     public IQL and() {
-        this.whereConcat = AND;
+        whereOr = false;
         return this;
     }
 
@@ -992,7 +974,7 @@ public class IQL {
             default:
                 throw new OperationNotSetException();
         }
-        if ((opType == UPDATE || opType == DELETE) && where.length() == 0) {
+        if ((opType == Operation.UPDATE || opType == Operation.DELETE) && where.length() == 0) {
             throw new InsecureOperationException();
         }
         sql.append(where);
