@@ -22,7 +22,12 @@ public class QueryFilter {
     
     public void setBoolean(boolean boolVal){
         int pos = sql.indexOf('?');
-        sql = sql.substring(0, pos) + (boolVal ? 1 : 0) + '\'' + sql.substring(pos + 1);
+        sql = sql.substring(0, pos) + (boolVal ? 1 : 0) + sql.substring(pos + 1);
+    }
+    
+    public void setFloat(float floatVal){
+        int pos = sql.indexOf('?');
+        sql = sql.substring(0, pos) + floatVal + sql.substring(pos + 1);
     }
     
     private String escapeString(String str){

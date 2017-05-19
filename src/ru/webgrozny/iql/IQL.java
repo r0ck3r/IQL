@@ -51,6 +51,7 @@ public class IQL {
     private static final int RT_I = 4; //integer
     private static final int RT_B = 5; //boolean
     private static final int RT_D = 6; //date
+    private static final int RT_F = 7; //float
 
     private Connection con;
     private List<String> tables;
@@ -281,6 +282,9 @@ public class IQL {
                 case 'd':
                     type = RT_D;
                     break;
+                case 'f':
+                    type = RT_F;
+                    break;
                 default:
                     throw new RowFormatException();
             }
@@ -350,7 +354,21 @@ public class IQL {
 
         return ret;
     }
-
+    
+    private float parseFloat(Object data){
+        float ret;
+        try {
+            ret = (Float) data;
+        } catch (ClassCastException e0){
+            try {
+                ret = Float.parseFloat(data.toString());
+            }catch (NumberFormatException e1){
+                throw new RowFormatException();
+            }
+        }
+        return ret;
+    }
+    
     private Object prepareForRow(Row row, Object data) {
         switch (row.type) {
             case RT_S:
@@ -365,6 +383,8 @@ public class IQL {
                 return parseBoolean(data);
             case RT_D:
                 return parseDate(data);
+            case RT_F:
+                return parseFloat(data);
             default:
                 throw new RowFormatException();
         }
@@ -636,6 +656,7 @@ public class IQL {
         compileQuery();
         try {
             PreparedStatement ps = con.prepareStatement(sql.toString());
+
             int i = 1;
             for (PreparedData preparedData : this.preparedQueryData) {
                 switch (preparedData.type) {
@@ -651,6 +672,8 @@ public class IQL {
                     case RT_B:
                         ps.setBoolean(i++, (boolean) preparedData.data);
                         break;
+                    case RT_F:
+                        ps.setFloat(i++, (float) preparedData.data);
                 }
             }
             reset();
@@ -677,6 +700,8 @@ public class IQL {
                 case RT_B:
                     qf.setBoolean((boolean) preparedData.data);
                     break;
+                case RT_F:
+                    qf.setFloat((float) preparedData.data);
             }
         }
         reset();
@@ -790,6 +815,8 @@ public class IQL {
                 break;
             case RT_T:
                 ret.append("TEXT");
+            case RT_F:
+                ret.append("FLOAT");
         }
         return ret.toString();
     }
