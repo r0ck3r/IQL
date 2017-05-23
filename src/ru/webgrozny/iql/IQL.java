@@ -38,7 +38,7 @@ public class IQL {
     private Connection con;
     private List<String> tables;
     private Operation opType;
-    private Row[] modifyingRows;
+    private Field[] modifyingFields;
     private List<Object[]> insertableData;
     private Object[] updateData;
     private StringBuilder sql;
@@ -47,8 +47,8 @@ public class IQL {
     private StringBuilder where;
     private int openBracketsCnt;
     private int currentTableIndex;
-    private List<Row> createRows;
-    private List<SelectedRow> selectedRows;
+    private List<Field> createFields;
+    private List<SelectedField> selectedFields;
     private List<String> excludedTables;
     private List<Join> joins;
     private List<Order> orders;
@@ -72,13 +72,13 @@ public class IQL {
     public void reset() {
         opType = Operation.NOT_SET;
         preparedWhereData = new ArrayList<>();
-        createRows = new ArrayList<>();
+        createFields = new ArrayList<>();
         tables = new ArrayList<>();
         insertableData = new ArrayList<>();
         openBracketsCnt = 0;
         currentTableIndex = 0;
         where = new StringBuilder();
-        selectedRows = new ArrayList<>();
+        selectedFields = new ArrayList<>();
         excludedTables = new ArrayList<>();
         joins = new ArrayList<>();
         orders = new ArrayList<>();
@@ -118,11 +118,11 @@ public class IQL {
         dateFormat = format;
     }
 
-    private class Row {
+    private class Field {
         String name;
         DataType type;
 
-        Row(String name, DataType type) {
+        Field(String name, DataType type) {
             this.name = name;
             this.type = type;
         }
@@ -138,41 +138,41 @@ public class IQL {
         }
     }
 
-    private class SelectedRow {
+    private class SelectedField {
         String table;
-        String row;
+        String field;
         String alias;
 
-        SelectedRow(String row, int table) {
+        SelectedField(String field, int table) {
             this.table = tables.get(table - 1);
-            if (row.indexOf(' ') != -1) {
-                String[] rowVals = row.split(" ");
-                this.row = rowVals[0];
-                this.alias = rowVals[1];
+            if (field.indexOf(' ') != -1) {
+                String[] fieldVals = field.split(" ");
+                this.field = fieldVals[0];
+                this.alias = fieldVals[1];
             } else {
-                this.row = row;
-                this.alias = this.table + "_" + this.row;
+                this.field = field;
+                this.alias = this.table + "_" + this.field;
             }
         }
 
-        SelectedRow(String row) {
-            this(row, currentTableIndex + 1);
+        SelectedField(String field) {
+            this(field, currentTableIndex + 1);
         }
     }
 
     private class Join {
         String table1;
-        String row1;
+        String field1;
         String table2;
-        String row2;
+        String field2;
         String side;
         String type;
 
-        Join(int table1, String row1, int table2, String row2, String side, String type) {
+        Join(int table1, String field1, int table2, String field2, String side, String type) {
             this.table1 = tables.get(table1 - 1);
             this.table2 = tables.get(table2 - 1);
-            this.row1 = row1;
-            this.row2 = row2;
+            this.field1 = field1;
+            this.field2 = field2;
             this.side = side != null ? side : "";
             this.type = type != null ? type : "";
         }
@@ -204,69 +204,69 @@ public class IQL {
                     propType = "";
             }
 
-            String ret = propSide + propType + " JOIN `" + table2 + "` ON `" + table1 + "`.`" + row1 + "` = `" + table2 + "`.`" + row2 + "`";
+            String ret = propSide + propType + " JOIN `" + table2 + "` ON `" + table1 + "`.`" + field1 + "` = `" + table2 + "`.`" + field2 + "`";
             return ret;
         }
     }
 
     private class Order {
-        String row;
+        String field;
         String type;
         int table;
 
-        Order(String row, String type, int table) {
-            this.row = row;
+        Order(String field, String type, int table) {
+            this.field = field;
             this.type = type;
             this.table = table - 1;
         }
 
-        Order(String row, int table) {
-            this(row, ASC, table);
+        Order(String field, int table) {
+            this(field, ASC, table);
         }
 
-        Order(String row, String type) {
-            this(row, type, currentTableIndex + 1);
+        Order(String field, String type) {
+            this(field, type, currentTableIndex + 1);
         }
 
         public String toString() {
             String table = tables.get(this.table);
             String type = this.type.equals(DESC) ? "DESC" : "ASC";
-            String ret = "`" + table + "`.`" + row + "` " + type;
+            String ret = "`" + table + "`.`" + field + "` " + type;
             return ret;
         }
     }
 
     private class Group {
         int table;
-        String row;
+        String field;
 
-        Group(String row, int table) {
-            this.row = row;
+        Group(String field, int table) {
+            this.field = field;
             this.table = table - 1;
         }
 
-        Group(String row) {
-            this(row, currentTableIndex + 1);
+        Group(String field) {
+            this(field, currentTableIndex + 1);
         }
 
         public String toString() {
             String table = tables.get(this.table);
-            return "`" + table + "`.`" + row + "`";
+            return "`" + table + "`.`" + field + "`";
         }
     }
 
     /**
-     * @param row Row name in format "name %s", where %s is type signature
-     * @return Row object
+     * @param field Field name in format "name %s", where %s is type signature
+     * @return Field object
      * @throws RowFormatException if type signature not found
      */
-    private Row parseRow(String row) throws RowFormatException {
+    private Field parseField(String field) throws RowFormatException {
         String name;
         DataType type;
-        int delimiterIndex = row.lastIndexOf('%');
-        if (delimiterIndex == row.length() - 2) {
-            name = row.substring(0, delimiterIndex - 1);
-            char typeChar = row.charAt(row.length() - 1);
+        int delimiterIndex = field.lastIndexOf('%');
+        if (delimiterIndex == field.length() - 2) {
+            name = field.substring(0, delimiterIndex - 1);
+            char typeChar = field.charAt(field.length() - 1);
             switch (typeChar) {
                 case 's':
                     type = DataType.RT_S;
@@ -292,7 +292,7 @@ public class IQL {
                 default:
                     throw new RowFormatException();
             }
-            return new Row(name, type);
+            return new Field(name, type);
         }
         throw new RowFormatException();
     }
@@ -410,12 +410,12 @@ public class IQL {
 
     /**
      * Data for preparator
-     * @param row row to get type data
-     * @param data data, which will be parsed with row type
-     * @return Object, that contains right data type for set row type
+     * @param field field to get type data
+     * @param data data, which will be parsed with field type
+     * @return Object, that contains right data type for set field type
      */
-    private Object prepareForRow(Row row, Object data) {
-        switch (row.type) {
+    private Object prepareForRow(Field field, Object data) {
+        switch (field.type) {
             case RT_S:
                 return parseStringFilter(data);
             case RT_V:
@@ -458,38 +458,38 @@ public class IQL {
     }
 
     /**
-     * Method, that is called by setInsertRows and setUpdateRows, which will set rows, to add or update data
-     * @param rows rows to modificate. Must be set with type signature
+     * Method, that is called by setInsertFields and setUpdateFields, which will set fields, to add or update data
+     * @param fields fields to modificate. Must be set with type signature
      */
-    private void setModifyingRows(String[] rows) {
-        modifyingRows = new Row[rows.length];
+    private void setModifyingFields(String[] fields) {
+        modifyingFields = new Field[fields.length];
         int i = 0;
-        for (String row : rows) {
-            modifyingRows[i++] = parseRow(row);
+        for (String field : fields) {
+            modifyingFields[i++] = parseField(field);
         }
     }
 
     /**
-     * Setting rows for data insert
-     * @param rows rows with type signature to insert
+     * Setting fields for data insert
+     * @param fields fields with type signature to insert
      * @return this
      */
-    public IQL setInsertRows(String... rows) {
+    public IQL setInsertFields(String... fields) {
         opType = Operation.INSERT;
-        setModifyingRows(rows);
+        setModifyingFields(fields);
         return this;
     }
 
     /**
-     * Inserts data to declared with setInsertRows() rows
+     * Inserts data to declared with setInsertFields() fields
      * @param data data to insert
      * @return this
      */
     public IQL insert(Object... data) {
-        if (data.length == modifyingRows.length) {
+        if (data.length == modifyingFields.length) {
             Object[] toInsert = new Object[data.length];
             for (int i = 0; i < data.length; i++) {
-                toInsert[i] = prepareForRow(modifyingRows[i], data[i]);
+                toInsert[i] = prepareForRow(modifyingFields[i], data[i]);
             }
             insertableData.add(toInsert);
             return this;
@@ -498,26 +498,26 @@ public class IQL {
     }
 
     /**
-     * Setting rows to data update
-     * @param rows row names with type signature to update
+     * Setting fields to data update
+     * @param fields field names with type signature to update
      * @return this
      */
-    public IQL setUpdateRows(String... rows) {
+    public IQL setUpdateFields(String... fields) {
         opType = Operation.UPDATE;
-        setModifyingRows(rows);
+        setModifyingFields(fields);
         return this;
     }
 
     /**
-     * Updates data in declared with setUpdateRows() rows
+     * Updates data in declared with setUpdateFields() fields
      * @param data data to insert
      * @return this
      */
     public IQL update(Object... data) {
-        if (data.length == modifyingRows.length) {
+        if (data.length == modifyingFields.length) {
             Object[] update = new Object[data.length];
             for (int i = 0; i < data.length; i++) {
-                update[i] = prepareForRow(modifyingRows[i], data[i]);
+                update[i] = prepareForRow(modifyingFields[i], data[i]);
             }
             updateData = update;
             return this;
@@ -526,13 +526,13 @@ public class IQL {
     }
 
     /**
-     * Setting rows to update or insert
-     * @param rows row names with type signature
+     * Setting fields to update or insert
+     * @param fields field names with type signature
      * @return this
      */
-    public IQL setUpsertRows(String... rows) {
+    public IQL setUpsertFields(String... fields) {
         opType = Operation.UPSERT;
-        setModifyingRows(rows);
+        setModifyingFields(fields);
         return this;
     }
 
@@ -548,8 +548,8 @@ public class IQL {
     }
 
     /**
-     * DELETE row with id
-     * @param id row id to delete
+     * DELETE field with id
+     * @param id field id to delete
      * @return this
      */
     public IQL delete(int id) {
@@ -571,23 +571,23 @@ public class IQL {
     /**
      * Table creating
      * @param tableName Table name to create
-     * @param rows Rows to create in table
+     * @param fields Rows to create in table
      * @return this
      */
-    public IQL createTable(String tableName, String... rows) {
+    public IQL createTable(String tableName, String... fields) {
         createTable(tableName);
-        addRow(rows);
+        addField(fields);
         return this;
     }
 
     /**
-     * Adding rows to creating table
-     * @param rows row names with type signature
+     * Adding fields to creating table
+     * @param fields field names with type signature
      * @return
      */
-    public IQL addRow(String... rows) {
-        for (String row : rows) {
-            addRow(row);
+    public IQL addField(String... fields) {
+        for (String field : fields) {
+            addField(field);
         }
         return this;
     }
@@ -604,24 +604,24 @@ public class IQL {
     }
 
     /**
-     * Adding row to creating table
-     * @param row row name with type signature
+     * Adding field to creating table
+     * @param field field name with type signature
      * @return
      */
-    public IQL addRow(String row) {
-        createRows.add(parseRow(row));
+    public IQL addField(String field) {
+        createFields.add(parseField(field));
         return this;
     }
 
     /**
-     * Selects rows from table
-     * @param rows row to select
+     * Selects fields from table
+     * @param fields field to select
      * @return this
      */
-    public IQL select(String... rows) {
+    public IQL select(String... fields) {
         opType = Operation.SELECT;
-        for (String row : rows) {
-            selectedRows.add(new SelectedRow(row));
+        for (String field : fields) {
+            selectedFields.add(new SelectedField(field));
         }
         return this;
     }
@@ -699,10 +699,10 @@ public class IQL {
                 cOperation = "=";
         }
 
-        Row row = parseRow(what);
+        Field field = parseField(what);
         Object data = null;
         if (!withoutData) {
-            data = prepareForRow(row, value);
+            data = prepareForRow(field, value);
         }
         String table = tables.get(currentTableIndex);
         if (where.length() > 0) {
@@ -717,10 +717,10 @@ public class IQL {
         openBracketsCnt = 0;
 
         if (withoutData) {
-            where.append("`" + table + "`.`" + row.name + "` " + cOperation);
+            where.append("`" + table + "`.`" + field.name + "` " + cOperation);
         } else {
-            where.append("`" + table + "`.`" + row.name + "` " + cOperation + " ?");
-            preparedWhereData.add(new PreparedData(data, row.type));
+            where.append("`" + table + "`.`" + field.name + "` " + cOperation + " ?");
+            preparedWhereData.add(new PreparedData(data, field.type));
         }
         return this;
     }
@@ -745,7 +745,7 @@ public class IQL {
 
     /**
      * where statement without value (for isnull, isntnull)
-     * @param what row to compare
+     * @param what field to compare
      * @param operation operation (ISNULL, ISNTNULL)
      * @return this
      */
@@ -764,56 +764,56 @@ public class IQL {
 
     /**
      * Grouping data
-     * @param row row to group
-     * @param table table, that contains row
+     * @param field field to group
+     * @param table table, that contains field
      * @return this
      */
-    public IQL groupBy(String row, int table) {
-        groups.add(new Group(row, table));
+    public IQL groupBy(String field, int table) {
+        groups.add(new Group(field, table));
         return this;
     }
 
     /**
      * Grouping data
-     * @param row row from current active table to group
+     * @param field field from current active table to group
      * @return this
      */
-    public IQL groupBy(String row) {
-        groups.add(new Group(row));
+    public IQL groupBy(String field) {
+        groups.add(new Group(field));
         return this;
     }
 
     /**
      * Ordering data
-     * @param row row for order
+     * @param field field for order
      * @param type ordering type (ASC or DESC)
-     * @param table table, that contains row
+     * @param table table, that contains field
      * @return this
      */
-    public IQL orderBy(String row, String type, int table) {
-        orders.add(new Order(row, type, table));
+    public IQL orderBy(String field, String type, int table) {
+        orders.add(new Order(field, type, table));
         return this;
     }
 
     /**
      * Ordering data
-     * @param row row for order
-     * @param table table, that contains row
+     * @param field field for order
+     * @param table table, that contains field
      * @return this
      */
-    public IQL orderBy(String row, int table) {
-        orders.add(new Order(row, table));
+    public IQL orderBy(String field, int table) {
+        orders.add(new Order(field, table));
         return this;
     }
 
     /**
      * Ordering data
-     * @param row row from current active table
+     * @param field field from current active table
      * @param type ordering type (ASC or DESC)
      * @return
      */
-    public IQL orderBy(String row, String type) {
-        orders.add(new Order(row, type));
+    public IQL orderBy(String field, String type) {
+        orders.add(new Order(field, type));
         return this;
     }
 
@@ -840,46 +840,46 @@ public class IQL {
     /**
      * Joining tables
      * @param index1 table to join to
-     * @param row1 field name for join to
+     * @param field1 field name for join to
      * @param index2 joining table index
-     * @param row2 joining field name
+     * @param field2 joining field name
      * @param side join side (LEFT, RIGHT, FULL)
      * @param type join type (INNER, OUTER)
      * @return this
      */
-    public IQL join(int index1, String row1, int index2, String row2, String side, String type) {
+    public IQL join(int index1, String field1, int index2, String field2, String side, String type) {
         excludedTables.add(tables.get(index2 - 1));
-        joins.add(new Join(index1, row1, index2, row2, side, type));
+        joins.add(new Join(index1, field1, index2, field2, side, type));
         return this;
     }
 
     /**
      * Joining tables
      * @param index1 table to join to
-     * @param row1 field name for join to
+     * @param field1 field name for join to
      * @param index2 joining table index
-     * @param row2 joining field name
+     * @param field2 joining field name
      * @param typeOrSide join side (LEFT, RIGHT, FULL) or type (INNER, OUTER)            
      * @return this
      */
-    public IQL join(int index1, String row1, int index2, String row2, String typeOrSide) {
+    public IQL join(int index1, String field1, int index2, String field2, String typeOrSide) {
         if (typeOrSide.equals(JOIN_OUTER) || typeOrSide.equals(JOIN_INNER)) {
-            return join(index1, row1, index2, row2, null, typeOrSide);
+            return join(index1, field1, index2, field2, null, typeOrSide);
         } else {
-            return join(index1, row1, index2, row2, typeOrSide, null);
+            return join(index1, field1, index2, field2, typeOrSide, null);
         }
     }
 
     /**
      * Joining tables
      * @param index1 table to join to
-     * @param row1 field name for join to
+     * @param field1 field name for join to
      * @param index2 joining table index
-     * @param row2 joining field name
+     * @param field2 joining field name
      * @return this
      */
-    public IQL join(int index1, String row1, int index2, String row2) {
-        return join(index1, row1, index2, row2, null, null);
+    public IQL join(int index1, String field1, int index2, String field2) {
+        return join(index1, field1, index2, field2, null, null);
     }
 
     /**
@@ -1001,17 +1001,17 @@ public class IQL {
     }
 
     private void compileInsert() {
-        sql.append("INSERT INTO `" + tables.get(0) + "`(`" + modifyingRows[0].name + "`");
-        for (int i = 1; i < modifyingRows.length; i++) {
-            sql.append(", `" + modifyingRows[i].name + "`");
+        sql.append("INSERT INTO `" + tables.get(0) + "`(`" + modifyingFields[0].name + "`");
+        for (int i = 1; i < modifyingFields.length; i++) {
+            sql.append(", `" + modifyingFields[i].name + "`");
         }
         sql.append(") VALUES");
         for (Object[] line : insertableData) {
             sql.append(" (?");
-            preparedQueryData.add(new PreparedData(line[0], modifyingRows[0].type));
+            preparedQueryData.add(new PreparedData(line[0], modifyingFields[0].type));
             for (int i = 1; i < line.length; i++) {
                 sql.append(", ?");
-                preparedQueryData.add(new PreparedData(line[i], modifyingRows[i].type));
+                preparedQueryData.add(new PreparedData(line[i], modifyingFields[i].type));
             }
             sql.append("),");
         }
@@ -1021,9 +1021,9 @@ public class IQL {
     private void compileUpdate() {
         sql.append("UPDATE `" + tables.get(0) + "` SET");
         int i = 0;
-        for (Row cRow : modifyingRows) {
-            sql.append(" `" + cRow.name + "` = ?,");
-            preparedQueryData.add(new PreparedData(updateData[i++], cRow.type));
+        for (Field cField : modifyingFields) {
+            sql.append(" `" + cField.name + "` = ?,");
+            preparedQueryData.add(new PreparedData(updateData[i++], cField.type));
         }
         sql.deleteCharAt(sql.length() - 1);
     }
@@ -1040,9 +1040,9 @@ public class IQL {
         sql.append("DELETE FROM `" + tables.get(0) + "`");
     }
 
-    private String getRowCreateCmd(Row row) {
-        StringBuilder ret = new StringBuilder("`" + row.name + "` ");
-        switch (row.type) {
+    private String getRowCreateCmd(Field field) {
+        StringBuilder ret = new StringBuilder("`" + field.name + "` ");
+        switch (field.type) {
             case RT_B:
                 ret.append("BOOL");
                 break;
@@ -1064,8 +1064,8 @@ public class IQL {
 
     private void compileCreate() {
         sql.append("CREATE TABLE `" + tables.get(0) + "`(`id` INTEGER PRIMARY KEY AUTO_INCREMENT,");
-        for (Row cRow : createRows) {
-            sql.append(" " + getRowCreateCmd(cRow) + ",");
+        for (Field cField : createFields) {
+            sql.append(" " + getRowCreateCmd(cField) + ",");
         }
         sql.deleteCharAt(sql.length() - 1);
         sql.append(")");
@@ -1073,9 +1073,9 @@ public class IQL {
 
     private void compileSelect() {
         sql.append("SELECT");
-        if (selectedRows.size() > 0) {
-            for (SelectedRow row : selectedRows) {
-                sql.append(" `" + row.table + "`.`" + row.row + "` AS `" + row.alias + "`,");
+        if (selectedFields.size() > 0) {
+            for (SelectedField field : selectedFields) {
+                sql.append(" `" + field.table + "`.`" + field.field + "` AS `" + field.alias + "`,");
             }
             sql.deleteCharAt(sql.length() - 1);
         } else {
