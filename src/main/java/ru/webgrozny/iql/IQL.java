@@ -1065,7 +1065,7 @@ public class IQL {
     }
 
     private void compileCreate() {
-        sql.append("CREATE TABLE `" + tables.get(0) + "`(`id` INTEGER PRIMARY KEY AUTO_INCREMENT,");
+        sql.append("CREATE TABLE IF NOT EXISTS `" + tables.get(0) + "`(`id` INTEGER PRIMARY KEY AUTO_INCREMENT,");
         for (Field cField : createFields) {
             sql.append(" " + getRowCreateCmd(cField) + ",");
         }
