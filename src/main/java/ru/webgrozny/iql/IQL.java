@@ -56,6 +56,7 @@ public class IQL {
     private String limit;
     private String selectRaw;
     private boolean whereOr = false;
+    private String codepage = "utf8";
 
     public IQL(Connection con) {
         reset();
@@ -85,6 +86,10 @@ public class IQL {
         groups = new ArrayList<>();
         limit = null;
         selectRaw = null;
+    }
+
+    public void setCodepage(String codepage) {
+        this.codepage = codepage;
     }
 
     /**
@@ -1070,7 +1075,7 @@ public class IQL {
             sql.append(" " + getRowCreateCmd(cField) + ",");
         }
         sql.deleteCharAt(sql.length() - 1);
-        sql.append(")");
+        sql.append(") DEFAULT CHARSET=" + codepage);
     }
 
     private void compileSelect() {
