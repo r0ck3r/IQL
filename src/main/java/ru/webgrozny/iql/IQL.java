@@ -1056,8 +1056,10 @@ public class IQL {
                 break;
             case RT_T:
                 ret.append("TEXT");
+                break;
             case RT_F:
                 ret.append("FLOAT");
+                break;
         }
         return ret.toString();
     }
