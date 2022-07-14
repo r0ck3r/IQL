@@ -35,6 +35,8 @@ public class IQL {
     private static StringFilter textParser = (s) -> s;
     private static String dateFormat = "dd.MM.yyyy";
 
+    private static int NO_STATEMENT_CONSTANT = -65535;
+
     private Connection con;
     private List<String> tables;
     private Operation opType;
@@ -887,17 +889,21 @@ public class IQL {
         return join(index1, field1, index2, field2, null, null);
     }
 
+    public PreparedStatement getStatement() {
+        return getStatement(NO_STATEMENT_CONSTANT);
+    }
+
     /**
      * Getting PreparedStatement for built query
      * @return PreparedStatement with query set
      */
-    public PreparedStatement getStatement() {
+    public PreparedStatement getStatement(int statementConstant) {
         if (con == null) {
             throw new ConnectionNotSetException();
         }
         compileQuery();
         try {
-            PreparedStatement ps = con.prepareStatement(sql.toString());
+            PreparedStatement ps = statementConstant == NO_STATEMENT_CONSTANT ? con.prepareStatement(sql.toString()) : con.prepareStatement(sql.toString(), statementConstant);
 
             int i = 1;
             for (PreparedData preparedData : this.preparedQueryData) {
